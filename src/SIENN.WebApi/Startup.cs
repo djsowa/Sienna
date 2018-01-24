@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SIENN.DbAccess.Context;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace SIENN.WebApi
@@ -25,6 +27,8 @@ namespace SIENN.WebApi
                     Title = "SIENN Recruitment API"
                 });
             });
+
+            services.AddDbContext<StoreDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("OnePostgres")));
 
             services.AddMvc();
         }

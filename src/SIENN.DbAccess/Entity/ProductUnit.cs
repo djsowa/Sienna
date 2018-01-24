@@ -3,15 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SIENN.DbAccess.Entity
 {
-    public class ProductUnit
+    public class ProductUnit : BaseEntity
     {
         public ProductUnit()
         {
             Products = new HashSet<Product>();
         }
-
-        [Key]
-        public int Id { get; set; }
 
         [Required]
         [MaxLength(10)]

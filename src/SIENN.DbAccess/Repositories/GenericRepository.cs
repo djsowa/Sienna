@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using SIENN.DbAccess.Entity;
 
 namespace SIENN.DbAccess.Repositories
 {
-    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
         private DbSet<TEntity> _entities;
         private DbContext _context;
@@ -17,24 +19,24 @@ namespace SIENN.DbAccess.Repositories
             _entities = context.Set<TEntity>();
         }
 
-        public virtual TEntity Get(int id)
+        public virtual async Task<TEntity> GetAsync(int id)
         {
-            return _entities.Find(id);
+            return await _entities.FindAsync(id).ConfigureAwait(false);
         }
 
-        public virtual IEnumerable<TEntity> GetAll()
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return _entities.ToList();
+            return await _entities.ToListAsync().ConfigureAwait(false);
         }
 
-        public virtual IEnumerable<TEntity> GetRange(int start, int count)
+        public virtual async Task<IEnumerable<TEntity>> GetRangeAsync(int start, int count)
         {
-            return _entities.Skip(start).Take(count).ToList();
+            return await _entities.Skip(start).Take(count).ToListAsync().ConfigureAwait(false);
         }
 
-        public virtual IEnumerable<TEntity> GetRange(int start, int count, Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<IEnumerable<TEntity>> GetRangeAsync(int start, int count, Expression<Func<TEntity, bool>> predicate)
         {
-            return _entities.Where(predicate).Skip(start).Take(count).ToList();
+            return await _entities.Where(predicate).Skip(start).Take(count).ToListAsync().ConfigureAwait(false);
         }
 
         public virtual IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
@@ -42,19 +44,29 @@ namespace SIENN.DbAccess.Repositories
             return _entities.Where(predicate);
         }
 
-        public virtual int Count()
+        public virtual async Task<int> CountAsync()
         {
-            return _entities.Count();
+            return await _entities.CountAsync().ConfigureAwait(false);
         }
 
-        public virtual void Add(TEntity entity)
+        public virtual async Task AddAsync(TEntity entity)
         {
-            _entities.Add(entity);
+            await _entities.AddAsync(entity).ConfigureAwait(false);
         }
 
         public virtual void Remove(TEntity entity)
         {
             _entities.Remove(entity);
+        }
+
+        public void Update(TEntity entity)
+        {
+            _context.Entry(entity).State = EntityState.Modified;
+        }
+
+        public IQueryable<TEntity> GetQueryable()
+        {
+            return _entities.AsQueryable();
         }
     }
 }

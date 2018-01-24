@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SIENN.DbAccess\SIENN.DbAccess.csproj" />
+    <ProjectReference Include="..\SIENN.Services\SIENN.Services.csproj" />
   </ItemGroup>
 
 </Project>

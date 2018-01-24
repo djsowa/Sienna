@@ -3,15 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SIENN.DbAccess.Entity
 {
-    public class ProductCategory
+    public class ProductCategory: BaseEntity
     {
         public ProductCategory()
         {
             
         }
-
-        [Key]
-        public int Id { get; set; }
 
         [Required]
         [MaxLength(20)]

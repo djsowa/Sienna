@@ -28,7 +28,7 @@ namespace SIENN.WebApi
                 });
             });
 
-            services.AddDbContext<StoreDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("OnePostgres")));
+            services.AddDbContext<StoreDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("OnePostgres")));            
 
             services.AddMvc();
         }

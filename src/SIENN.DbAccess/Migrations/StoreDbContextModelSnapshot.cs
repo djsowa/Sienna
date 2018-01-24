@@ -18,7 +18,7 @@ namespace SIENN.DbAccess.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
+                .HasAnnotation("ProductVersion", "2.0.0-rtm-26452");
 
             modelBuilder.Entity("SIENN.DbAccess.Entity.Product", b =>
                 {
@@ -29,13 +29,23 @@ namespace SIENN.DbAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(20);
 
-                    b.Property<int?>("ProductTypesId");
+                    b.Property<string>("Description")
+                        .HasMaxLength(255);
 
-                    b.Property<int?>("UnitId");
+                    b.Property<bool>("IsAvailable");
+
+                    b.Property<decimal>("Price");
+
+                    b.Property<int>("ProductTypeId");
+
+                    b.Property<int>("UnitId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductTypesId");
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("ProductTypeId");
 
                     b.HasIndex("UnitId");
 
@@ -56,6 +66,9 @@ namespace SIENN.DbAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code")
+                        .IsUnique();
+
                     b.ToTable("Categories");
                 });
 
@@ -65,7 +78,12 @@ namespace SIENN.DbAccess.Migrations
 
                     b.Property<int>("CategoryId");
 
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
                     b.HasKey("ProductId", "CategoryId");
+
+                    b.HasAlternateKey("Id");
 
                     b.HasIndex("CategoryId");
 
@@ -86,6 +104,9 @@ namespace SIENN.DbAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code")
+                        .IsUnique();
+
                     b.ToTable("ProductTypes");
                 });
 
@@ -103,18 +124,23 @@ namespace SIENN.DbAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code")
+                        .IsUnique();
+
                     b.ToTable("Unints");
                 });
 
             modelBuilder.Entity("SIENN.DbAccess.Entity.Product", b =>
                 {
-                    b.HasOne("SIENN.DbAccess.Entity.ProductType", "ProductTypes")
+                    b.HasOne("SIENN.DbAccess.Entity.ProductType", "ProductType")
                         .WithMany("Products")
-                        .HasForeignKey("ProductTypesId");
+                        .HasForeignKey("ProductTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("SIENN.DbAccess.Entity.ProductUnit", "Unit")
                         .WithMany("Products")
-                        .HasForeignKey("UnitId");
+                        .HasForeignKey("UnitId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SIENN.DbAccess.Entity.ProductToCategory", b =>

@@ -21,6 +21,18 @@ namespace SIENN.DbAccess.Context
         {
             modelBuilder.Entity<ProductToCategory>()
                         .HasKey(t => new { t.ProductId, t.CategoryId });
+
+            modelBuilder.Entity<Product>()
+                        .HasIndex(p => new {p.Code}).IsUnique();
+            modelBuilder.Entity<ProductCategory>()
+                        .HasIndex(p => new {p.Code}).IsUnique();
+            modelBuilder.Entity<ProductUnit>()
+                        .HasIndex(p => new {p.Code}).IsUnique();
+            modelBuilder.Entity<ProductType>()
+                        .HasIndex(p => new {p.Code}).IsUnique();
+
+            modelBuilder.Entity<ProductToCategory>()
+                        .Property<int>("Id").ValueGeneratedOnAdd();
         }
     }
 }

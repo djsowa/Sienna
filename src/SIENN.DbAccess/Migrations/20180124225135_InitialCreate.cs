@@ -13,10 +13,10 @@ namespace SIENN.DbAccess.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Code = table.Column<string>(maxLength: 20, nullable: false),
-                    Description = table.Column<string>(maxLength: 255, nullable: true)
+                    Code = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false),
+                    Description = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,10 +27,10 @@ namespace SIENN.DbAccess.Migrations
                 name: "ProductTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Code = table.Column<string>(maxLength: 20, nullable: false),
-                    Description = table.Column<string>(maxLength: 255, nullable: true)
+                    Code = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false),
+                    Description = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -41,10 +41,10 @@ namespace SIENN.DbAccess.Migrations
                 name: "Unints",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Code = table.Column<string>(maxLength: 10, nullable: false),
-                    Description = table.Column<string>(maxLength: 50, nullable: true)
+                    Code = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false),
+                    Description = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,39 +55,45 @@ namespace SIENN.DbAccess.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Code = table.Column<string>(maxLength: 20, nullable: false),
-                    ProductTypesId = table.Column<int>(nullable: true),
-                    UnitId = table.Column<int>(nullable: true)
+                    Code = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false),
+                    Description = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true),
+                    IsAvailable = table.Column<bool>(type: "bool", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    ProductTypeId = table.Column<int>(type: "int4", nullable: false),
+                    UnitId = table.Column<int>(type: "int4", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_ProductTypes_ProductTypesId",
-                        column: x => x.ProductTypesId,
+                        name: "FK_Products_ProductTypes_ProductTypeId",
+                        column: x => x.ProductTypeId,
                         principalTable: "ProductTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Products_Unints_UnitId",
                         column: x => x.UnitId,
                         principalTable: "Unints",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ProductsToCategories",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false)
+                    ProductId = table.Column<int>(type: "int4", nullable: false),
+                    CategoryId = table.Column<int>(type: "int4", nullable: false),
+                    Id = table.Column<int>(type: "int4", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductsToCategories", x => new { x.ProductId, x.CategoryId });
+                    table.UniqueConstraint("AK_ProductsToCategories_Id", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ProductsToCategories_Categories_CategoryId",
                         column: x => x.CategoryId,
@@ -103,9 +109,21 @@ namespace SIENN.DbAccess.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_ProductTypesId",
+                name: "IX_Categories_Code",
+                table: "Categories",
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_Code",
                 table: "Products",
-                column: "ProductTypesId");
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_ProductTypeId",
+                table: "Products",
+                column: "ProductTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_UnitId",
@@ -116,6 +134,18 @@ namespace SIENN.DbAccess.Migrations
                 name: "IX_ProductsToCategories_CategoryId",
                 table: "ProductsToCategories",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductTypes_Code",
+                table: "ProductTypes",
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Unints_Code",
+                table: "Unints",
+                column: "Code",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

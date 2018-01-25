@@ -28,6 +28,8 @@ RUN dotnet add package Swashbuckle.AspNetCore -v 1.1.0
 WORKDIR /app
 COPY ./src /app/src
 
+RUN chmod +x /app/src/DbUpdate.sh
+
 RUN dotnet restore /app/src
 RUN dotnet build /app/src
 RUN dotnet publish /app/src --output /app
@@ -35,6 +37,5 @@ RUN dotnet publish /app/src --output /app
 #RUN rm -R /app/src
 
 EXPOSE 5000/tcp
-ENV ASPNETCORE_URLS="http://0.0.0.0:5000"
 
-ENTRYPOINT [ "dotnet", "ef", "database", "update" ]
+ENV ASPNETCORE_URLS="http://0.0.0.0:5000"

@@ -15,6 +15,13 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
 
 
+  proxy-webapi-sienn:
+    build: ./Deployment/Nginx
+    ports:
+      - 8080:8080
+    volumes:
+      - /etc/letsencrypt:/certs/letsencrypt
+
   ##################################################
   ##                DATABASES                     ##
   ##################################################

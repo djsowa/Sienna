@@ -32,7 +32,7 @@ RUN dotnet restore /app/src
 RUN dotnet build /app/src
 RUN dotnet publish /app/src --output /app
 
-RUN rm -R /app/src
+#RUN rm -R /app/src
 
 EXPOSE 5000/tcp
 ENV ASPNETCORE_URLS="http://0.0.0.0:5000"

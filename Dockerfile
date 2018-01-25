@@ -36,3 +36,5 @@ RUN rm -R /app/src
 
 EXPOSE 5000/tcp
 ENV ASPNETCORE_URLS="http://0.0.0.0:5000"
+
+ENTRYPOINT [ "dotnet", "ef", "database", "update" ]

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SIENN.DbAccess.Entity
 {
-    public class ProductToCategory : BaseEntity
+    public class ProductToCategory //: BaseEntity
     {
         public ProductToCategory()
         {

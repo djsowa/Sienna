@@ -58,11 +58,6 @@ namespace SIENN.DbAccess.Repositories
             }
 
             await _entities.AddAsync(entity).ConfigureAwait(false);
-
-            foreach (var protToCat in entity.Categories)
-            {
-                _context.Entry(protToCat).State = EntityState.Added;
-            }
         }
 
         public virtual void Remove(Product entity)
@@ -77,7 +72,25 @@ namespace SIENN.DbAccess.Repositories
                 throw new InvalidOperationException("Product with the same code already exists.");
             }
 
-            _context.Entry(entity).State = EntityState.Modified;
+            var existingCategories = _context.ProductsToCategories.Where(c => c.ProductId == entity.Id);
+
+            foreach (var protToCat in entity.Categories)
+            {
+                //check for new assigned categories
+                if (!existingCategories.Any(e => e.CategoryId == protToCat.CategoryId))
+                {
+                    _context.Entry(protToCat).State = EntityState.Added;
+                }
+            }
+
+            foreach (var protToCat in existingCategories)
+            {
+                //check for deleted categories connection
+                if (!entity.Categories.Any(e => e.CategoryId == protToCat.CategoryId))
+                {
+                    _context.Entry(protToCat).State = EntityState.Deleted;
+                }
+            }
         }
 
         public IQueryable<Product> GetQueryable()

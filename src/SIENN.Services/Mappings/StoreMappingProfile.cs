@@ -1,3 +1,4 @@
+using System.Linq;
 using AutoMapper;
 using SIENN.DbAccess.Entity;
 using SIENN.Services.Models;
@@ -8,9 +9,15 @@ namespace SIENN.Services.Mappings
     {
         public StoreMappingProfile()
         {
-            CreateMap<ProductBaseModel, Product>();
-            CreateMap<ProductModel, Product>();
-            CreateMap<Product, ProductModel>();
+
+            CreateMap<ProductBaseModel, Product>()
+                     .ForMember(p => p.Categories, m => m.ResolveUsing<ProductBaseModelToCategoryResolver>());
+
+            CreateMap<ProductModel, Product>()
+                    .ForMember(p => p.Categories, m => m.ResolveUsing<ProductModelToCategoryResolver>());
+
+            CreateMap<Product, ProductModel>()
+                    .ForMember(p => p.Categories, m => m.MapFrom(s => s.Categories.Select(c => c.CategoryId)));
 
             CreateMap<CategoryBaseModel, ProductCategory>();
             CreateMap<CategoryModel, ProductCategory>();

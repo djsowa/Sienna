@@ -76,7 +76,17 @@ namespace SIENN.WebApi.Controllers
             if (!ModelState.IsValid)
                 return this.BadRequest("Invalid data.");
 
-            var result = await CrudControllerService.UpdateAsync(id, record);
+            TResultModel result = null;
+
+            try
+            {
+                result = await CrudControllerService.UpdateAsync(id, record); ;
+            }
+            catch (System.Exception er)
+            {
+                return BadRequest(er.Message);
+            }
+
 
             return CreatedAtAction("Get", new { id = id }, result);
         }

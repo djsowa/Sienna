@@ -2,36 +2,17 @@
 using SIENN.DbAccess.Context;
 using SIENN.DbAccess.Entity;
 using SIENN.Services.Command;
+using SIENN.Services.ControllerServices;
 using SIENN.Services.Models;
 
 namespace SIENN.WebApi.Controllers
 {
     [Route("api/[controller]")]
-    public class TypeController : BaseCrudController<TypeModel, ProductType>
+    public class TypeController : BaseCrudController<TypeModel, TypeBaseModel, ProductType>
     {
-        public TypeController(StoreDbContext context) : base(context)
+        public TypeController(ICrudControllerService<TypeModel, TypeBaseModel, ProductType> crudControllerService) : base(crudControllerService)
         {
 
-        }
-
-        protected override ProductType FromModel(TypeModel model, int id = 0)
-        {
-            return new ProductType()
-            {
-                Code = model.Code,
-                Description = model.Description,
-                Id = id == 0 ? model.Id : id
-            };
-        }
-
-        protected override TypeModel ToModel(ProductType entity)
-        {
-            return new TypeModel()
-            {
-                Code = entity.Code,
-                Description = entity.Description,
-                Id = entity.Id
-            };
-        }
+        }        
     }
 }

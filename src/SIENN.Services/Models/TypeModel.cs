@@ -2,9 +2,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SIENN.Services.Models
 {
-    public class TypeModel
+    public class TypeModel : TypeBaseModel
     {
         public int Id { get; set; }
+    }
+
+    public class TypeBaseModel
+    {
 
         [Required]
         [MaxLength(20)]

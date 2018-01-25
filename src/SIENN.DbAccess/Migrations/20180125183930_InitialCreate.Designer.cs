@@ -11,7 +11,7 @@ using System;
 namespace SIENN.DbAccess.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20180124225135_InitialCreate")]
+    [Migration("20180125183930_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

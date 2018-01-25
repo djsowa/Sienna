@@ -13,6 +13,12 @@ namespace SIENN.DbAccess.Entity
         {
             ProductId = productId;
             CategoryId = categoryId;
+        }
+
+        public ProductToCategory(Product product, int categoryId)
+        {
+            Product = product;
+            CategoryId = categoryId;
         }        
 
         public int ProductId { get; set; }

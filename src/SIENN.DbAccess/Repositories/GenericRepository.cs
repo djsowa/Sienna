@@ -5,15 +5,16 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using SIENN.DbAccess.Entity;
+using SIENN.DbAccess.Context;
 
 namespace SIENN.DbAccess.Repositories
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-        private DbSet<TEntity> _entities;
-        private DbContext _context;
+        protected readonly DbSet<TEntity> _entities;
+        protected readonly DbContext _context;
 
-        public GenericRepository(DbContext context)
+        public GenericRepository(StoreDbContext context)
         {
             _context = context;
             _entities = context.Set<TEntity>();
@@ -31,12 +32,12 @@ namespace SIENN.DbAccess.Repositories
 
         public virtual async Task<IEnumerable<TEntity>> GetRangeAsync(int start, int count)
         {
-            return await _entities.Skip(start).Take(count).ToListAsync().ConfigureAwait(false);
+            return await _entities.OrderBy(x=>x.Id).Skip(start).Take(count).ToListAsync().ConfigureAwait(false);
         }
 
         public virtual async Task<IEnumerable<TEntity>> GetRangeAsync(int start, int count, Expression<Func<TEntity, bool>> predicate)
         {
-            return await _entities.Where(predicate).Skip(start).Take(count).ToListAsync().ConfigureAwait(false);
+            return await _entities.Where(predicate).OrderBy(x=>x.Id).Skip(start).Take(count).ToListAsync().ConfigureAwait(false);
         }
 
         public virtual IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
@@ -50,7 +51,7 @@ namespace SIENN.DbAccess.Repositories
         }
 
         public virtual async Task AddAsync(TEntity entity)
-        {
+        {            
             await _entities.AddAsync(entity).ConfigureAwait(false);
         }
 
@@ -59,12 +60,12 @@ namespace SIENN.DbAccess.Repositories
             _entities.Remove(entity);
         }
 
-        public void Update(TEntity entity)
+        public virtual void Update(TEntity entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public IQueryable<TEntity> GetQueryable()
+        public virtual IQueryable<TEntity> GetQueryable()
         {
             return _entities.AsQueryable();
         }

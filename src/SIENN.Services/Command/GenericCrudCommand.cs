@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SIENN.DbAccess.Context;
 using SIENN.DbAccess.Entity;
 using SIENN.DbAccess.Repositories;
 
@@ -9,30 +11,29 @@ namespace SIENN.Services.Command
     public class GenericCrudCommand<TEntity> where TEntity : BaseEntity
     {
         protected readonly IGenericRepository<TEntity> _repository = null;
-        protected readonly DbContext _context = null;
+        protected readonly StoreDbContext _context = null;
 
-        public GenericCrudCommand(DbContext context)
+        public GenericCrudCommand(StoreDbContext context)
         {
             _context = context;
             _repository = new GenericRepository<TEntity>(context);
         }
 
-        public GenericCrudCommand(DbContext context, IGenericRepository<TEntity> repository)
+        public GenericCrudCommand(StoreDbContext context, IGenericRepository<TEntity> repository)
         {
             _context = context;
             _repository = repository;
         }
 
-        protected async Task<int> Save()
+        protected async Task<int> SaveAsync()
         {
             return await _context.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public virtual async Task<int> AddAsync(TEntity entity)
         {
-            _context.Entry(entity).State = EntityState.Added;
-
-            if ((await Save().ConfigureAwait(false)) == 0)
+            await _repository.AddAsync(entity).ConfigureAwait(false);
+            if ((await SaveAsync().ConfigureAwait(false)) == 0)
             {
                 return 0;
             }
@@ -46,19 +47,29 @@ namespace SIENN.Services.Command
         {
             _repository.Update(entity);
 
-            await Save().ConfigureAwait(false);
+            await SaveAsync().ConfigureAwait(false);
         }
 
-        public virtual async Task RemoveAsync(TEntity entity)
+        public virtual async Task<bool> RemoveAsync(TEntity entity)
         {
             _repository.Remove(entity);
 
-            await Save().ConfigureAwait(false);
+            return (await SaveAsync().ConfigureAwait(false)) > 0;
         }
 
         public virtual async Task<TEntity> GetAsync(int entityId)
         {
             return await _repository.GetAsync(entityId).ConfigureAwait(false);
+        }
+
+        public virtual async Task<int> CountAsync()
+        {
+            return await _repository.CountAsync().ConfigureAwait(false);
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> GetRangeAsync(int skip, int take)
+        {
+            return await _repository.GetRangeAsync(skip, take);
         }
 
         public virtual IQueryable<TEntity> GetQueryable()

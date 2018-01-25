@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIENN.Services", "SIENN.Ser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIENN.WebApi", "SIENN.WebApi\SIENN.WebApi.csproj", "{369B5334-A06E-4766-941F-3043B62DC1D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIENN.Worker", "SIENN.Worker\SIENN.Worker.csproj", "{7D559E38-4ACA-4018-BF35-F3D4859226A1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,18 +31,6 @@ Global
 		{369B5334-A06E-4766-941F-3043B62DC1D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{369B5334-A06E-4766-941F-3043B62DC1D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{369B5334-A06E-4766-941F-3043B62DC1D6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7D559E38-4ACA-4018-BF35-F3D4859226A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D559E38-4ACA-4018-BF35-F3D4859226A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D559E38-4ACA-4018-BF35-F3D4859226A1}.Debug|x64.ActiveCfg = Debug|x64
-		{7D559E38-4ACA-4018-BF35-F3D4859226A1}.Debug|x64.Build.0 = Debug|x64
-		{7D559E38-4ACA-4018-BF35-F3D4859226A1}.Debug|x86.ActiveCfg = Debug|x86
-		{7D559E38-4ACA-4018-BF35-F3D4859226A1}.Debug|x86.Build.0 = Debug|x86
-		{7D559E38-4ACA-4018-BF35-F3D4859226A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D559E38-4ACA-4018-BF35-F3D4859226A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7D559E38-4ACA-4018-BF35-F3D4859226A1}.Release|x64.ActiveCfg = Release|x64
-		{7D559E38-4ACA-4018-BF35-F3D4859226A1}.Release|x64.Build.0 = Release|x64
-		{7D559E38-4ACA-4018-BF35-F3D4859226A1}.Release|x86.ActiveCfg = Release|x86
-		{7D559E38-4ACA-4018-BF35-F3D4859226A1}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,9 +2,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SIENN.Services.Models
 {
-    public class UnitModel
+    public class UnitModel : UnitBaseModel
     {
         public int Id { get; set; }
+    }
+
+    public class UnitBaseModel
+    {
 
         [Required]
         [MaxLength(20)]

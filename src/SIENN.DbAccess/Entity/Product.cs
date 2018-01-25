@@ -26,10 +26,12 @@ namespace SIENN.DbAccess.Entity
 
         [Required]
         public ProductType ProductType { get; set; }
+        public int ProductTypeId { get; set; }
 
         public virtual ICollection<ProductToCategory> Categories { get; } = new List<ProductToCategory>();
 
         [Required]
         public ProductUnit Unit { get; set; }
+        public int UnitId { get; set; }
     }
 }

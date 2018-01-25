@@ -2,36 +2,17 @@
 using SIENN.DbAccess.Context;
 using SIENN.DbAccess.Entity;
 using SIENN.Services.Command;
+using SIENN.Services.ControllerServices;
 using SIENN.Services.Models;
 
 namespace SIENN.WebApi.Controllers
 {
     [Route("api/[controller]")]
-    public class CategoryController : BaseCrudController<CategoryModel, ProductCategory>
+    public class CategoryController : BaseCrudController<CategoryModel, CategoryBaseModel, ProductCategory>
     {
-        public CategoryController(StoreDbContext context) : base(context)
+        public CategoryController(ICrudControllerService<CategoryModel, CategoryBaseModel, ProductCategory> crudControllerService) : base(crudControllerService)
         {
 
-        }
-
-        protected override ProductCategory FromModel(CategoryModel model, int id = 0)
-        {
-            return new ProductCategory()
-            {
-                Code = model.Code,
-                Description = model.Description,
-                Id = id == 0 ? model.Id : id
-            };
-        }
-
-        protected override CategoryModel ToModel(ProductCategory entity)
-        {
-            return new CategoryModel()
-            {
-                Code = entity.Code,
-                Description = entity.Description,
-                Id = entity.Id
-            };
-        }
+        }       
     }
 }

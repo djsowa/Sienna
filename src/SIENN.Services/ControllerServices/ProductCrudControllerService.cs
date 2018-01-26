@@ -45,8 +45,8 @@ namespace SIENN.Services.ControllerServices
             if (!Context.ProductTypes.Any(x => x.Id == model.ProductTypeId))
                 throw new InvalidOperationException("Selected productTypeId for product doesn't exists.");
 
-            if (!Context.ProductTypes.Any(x => x.Id == model.ProductTypeId))
-                throw new InvalidOperationException("Selected productTypeId for product doesn't exists.");
+            if (!Context.Unints.Any(x => x.Id == model.UnitId))
+                throw new InvalidOperationException("Selected unitId for product doesn't exists.");
 
             //check if all categories selected for product exists in DB.
             var exitingCount = await Context.Categories.CountAsync(c => (model.Categories.Contains(c.Id)));

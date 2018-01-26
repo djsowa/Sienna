@@ -60,7 +60,7 @@ namespace SIENN.WebApi.Controllers
             }
             catch (System.Exception er)
             {
-                return BadRequest(er.Message);
+                return BadRequest($"{er.Message}{er.InnerException?.Message}");
             }
 
             if (result == null)
@@ -84,9 +84,8 @@ namespace SIENN.WebApi.Controllers
             }
             catch (System.Exception er)
             {
-                return BadRequest(er.Message);
+                return BadRequest($"{er.Message}{er.InnerException?.Message}");
             }
-
 
             return CreatedAtAction("Get", new { id = id }, result);
         }

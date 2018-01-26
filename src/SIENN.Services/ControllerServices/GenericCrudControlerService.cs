@@ -47,7 +47,7 @@ namespace SIENN.Services.ControllerServices
             return entity;
         }
 
-        public TEntity FromResultToEntity(TResultModel model, int id = 0)
+        public virtual TEntity FromResultToEntity(TResultModel model, int id = 0)
         {
             var entity = Mapper.Map<TResultModel, TEntity>(model);
 
@@ -57,7 +57,7 @@ namespace SIENN.Services.ControllerServices
             return entity;
         }
 
-        public async Task<Tuple<int, TResultModel>> AddAsync(TRequestModel request)
+        public virtual async Task<Tuple<int, TResultModel>> AddAsync(TRequestModel request)
         {
             int entityId = await CrudCommand.AddAsync(FromRequestToEntity(request));
 
@@ -71,7 +71,7 @@ namespace SIENN.Services.ControllerServices
             return result;
         }
 
-        public async Task<TResultModel> GetAsync(int id)
+        public virtual async Task<TResultModel> GetAsync(int id)
         {
             var entity = await CrudCommand.GetAsync(id);
 
@@ -81,7 +81,7 @@ namespace SIENN.Services.ControllerServices
             return FromEntityToResult(entity);
         }
 
-        public async Task<GenericList<TResultModel>> List(int skip, int take)
+        public virtual async Task<GenericList<TResultModel>> List(int skip, int take)
         {
             var totalCount = await CrudCommand.CountAsync();
 
@@ -102,7 +102,7 @@ namespace SIENN.Services.ControllerServices
             return result;
         }
 
-        public async Task<bool> RemoveAsync(int id)
+        public virtual async Task<bool> RemoveAsync(int id)
         {
             var entityToRemove = await CrudCommand.GetAsync(id);
 
@@ -114,7 +114,7 @@ namespace SIENN.Services.ControllerServices
             return wasDeleted;
         }
 
-        public async Task<TResultModel> UpdateAsync(int id, TRequestModel request)
+        public virtual async Task<TResultModel> UpdateAsync(int id, TRequestModel request)
         {
             await CrudCommand.UpdateAsync(FromRequestToEntity(request, id));
 

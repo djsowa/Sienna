@@ -36,7 +36,7 @@ namespace SIENN.WebApi
 
 
             //Context
-            services.AddDbContext<StoreDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("OnePostgres")));
+            services.AddDbContext<StoreDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("OnePostgres")));            
 
             //Repositories
             services.AddScoped<IGenericRepository<Product>, ProductRepository>();

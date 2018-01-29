@@ -10,15 +10,10 @@ using SIENN.DbAccess.Entity;
 using SIENN.DbAccess.Repositories;
 using SIENN.Services.Models;
 
-namespace SIENN.Services.ControllerServices
+namespace SIENN.Services.ControllerServices.Crud
 {
     public class ProductCrudControllerService : GenericCrudControlerService<ProductModel, ProductBaseModel, Product>
     {
-        public ProductCrudControllerService(StoreDbContext context, IMapper mapper) : base(context, mapper)
-        {
-
-        }
-
         public ProductCrudControllerService(StoreDbContext context, IMapper mapper, IGenericRepository<Product> repository) : base(context, mapper, repository)
         {
 
@@ -43,10 +38,10 @@ namespace SIENN.Services.ControllerServices
         protected virtual async Task ValidateAddOrUpdate(ProductBaseModel model)
         {
             if (!Context.ProductTypes.Any(x => x.Id == model.ProductTypeId))
-                throw new InvalidOperationException("Selected productTypeId for product doesn't exists.");
+                throw new InvalidOperationException($"Selected productTypeId:{model.ProductTypeId} for product doesn't exists.");
 
             if (!Context.Unints.Any(x => x.Id == model.UnitId))
-                throw new InvalidOperationException("Selected unitId for product doesn't exists.");
+                throw new InvalidOperationException($"Selected unitId:{model.UnitId} for product doesn't exists.");
 
             //check if all categories selected for product exists in DB.
             var exitingCount = await Context.Categories.CountAsync(c => (model.Categories.Contains(c.Id)));

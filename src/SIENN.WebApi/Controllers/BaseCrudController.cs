@@ -7,6 +7,7 @@ using SIENN.DbAccess.Entity;
 using SIENN.DbAccess.Repositories;
 using SIENN.Services.Command;
 using SIENN.Services.ControllerServices;
+using SIENN.Services.ControllerServices.Crud;
 using SIENN.Services.Models;
 
 namespace SIENN.WebApi.Controllers
@@ -49,24 +50,33 @@ namespace SIENN.WebApi.Controllers
         [HttpPost]
         public virtual async Task<IActionResult> Add([FromBody] TRequestModel record)
         {
-            if (!ModelState.IsValid)
-                return this.BadRequest("Invalid data.");
-
-            Tuple<int, TResultModel> result = null;
-
             try
             {
-                result = await CrudControllerService.AddAsync(record);
+                if (!ModelState.IsValid)
+                    return this.BadRequest("Invalid data.");
+
+                Tuple<int, TResultModel> result = null;
+
+                try
+                {
+                    result = await CrudControllerService.AddAsync(record);
+                }
+                catch (System.Exception er)
+                {
+                    Console.WriteLine($"{er}");
+                    return BadRequest($"{er.Message}{er.InnerException?.Message}");
+                }
+
+                if (result == null)
+                    return BadRequest("Value wasn't added to database.");
+
+                return CreatedAtAction("Get", new { id = result.Item1 }, result.Item2);
             }
             catch (System.Exception er)
             {
-                return BadRequest($"{er.Message}{er.InnerException?.Message}");
+                Console.WriteLine($"{er}");
+                throw;
             }
-
-            if (result == null)
-                return BadRequest("Value wasn't added to database.");
-
-            return CreatedAtAction("Get", new { id = result.Item1 }, result.Item2);
         }
 
         [HttpPut]
@@ -84,6 +94,7 @@ namespace SIENN.WebApi.Controllers
             }
             catch (System.Exception er)
             {
+                Console.WriteLine($"{er}");
                 return BadRequest($"{er.Message}{er.InnerException?.Message}");
             }
 

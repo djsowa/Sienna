@@ -20,7 +20,7 @@
                 "args": "${auto-detect-url}/swagger",
                 "windows": {
                     "command": "cmd.exe",
-                    "args": "/C start ${auto-detect-url}"
+                    "args": "/C start ${auto-detect-url}/swagger"
                 },
                 "osx": {
                     "command": "open"
@@ -30,7 +30,7 @@
                 }
             },
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
+                "ASPNETCORE_ENVIRONMENT": "Local"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"

@@ -9,8 +9,10 @@ using SIENN.DbAccess.Repositories;
 using SIENN.Services.Command;
 using Swashbuckle.AspNetCore.Swagger;
 using AutoMapper;
-using SIENN.Services.ControllerServices;
 using SIENN.Services.Models;
+using SIENN.Services.ControllerServices.Crud;
+using SIENN.Services.ControllerServices.Search;
+using System;
 
 namespace SIENN.WebApi
 {
@@ -36,7 +38,7 @@ namespace SIENN.WebApi
 
 
             //Context
-            services.AddDbContext<StoreDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("OnePostgres")));            
+            services.AddDbContext<StoreDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("OnePostgres")));
 
             //Repositories
             services.AddScoped<IGenericRepository<Product>, ProductRepository>();
@@ -45,19 +47,41 @@ namespace SIENN.WebApi
             services.AddScoped<IGenericRepository<ProductUnit>, ProductUnitRepository>();
 
 
-            //Controller services
+            //CRUD Controller services
             services.AddScoped<ICrudControllerService<ProductModel, ProductBaseModel, Product>, ProductCrudControllerService>();
             services.AddScoped<ICrudControllerService<CategoryModel, CategoryBaseModel, ProductCategory>, ProductCategoryCrudControllerService>();
             services.AddScoped<ICrudControllerService<TypeModel, TypeBaseModel, ProductType>, ProductTypeCrudControllerService>();
             services.AddScoped<ICrudControllerService<UnitModel, UnitBaseModel, ProductUnit>, ProductUnitCrudControllerService>();
 
+            //Search Services
+            services.AddScoped<IProductSearchControllerService<ProductModel, ProductFilterModel>, ProductSearchControllerService>();
+            services.AddScoped<IStoreControllerService<ProductViewModel, ProductFilterModel, Product>, StoreControllerService>();
+
+
+
             services.AddMvc();
             services.AddAutoMapper();
         }
 
+        public static void Seed(IApplicationBuilder app)
+        {
+            // Get an instance of the DbContext from the DI container
+            using (var context = app.ApplicationServices.GetRequiredService<StoreDbContext>())
+            {
+                // perform database delete
+                context.Database.EnsureDeleted();
+
+                context.Database.EnsureCreated();
+                context.SeedDb();
+                
+            }
+        }
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+            Console.WriteLine($"Environment: {env.EnvironmentName}");
+
+            if (env.IsDevelopment() || env.EnvironmentName.ToUpper() == "LOCAL")
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -69,6 +93,8 @@ namespace SIENN.WebApi
             });
 
             app.UseMvc();
+
+            Seed(app);
         }
     }
 }

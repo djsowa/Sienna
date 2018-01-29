@@ -32,12 +32,18 @@ namespace SIENN.DbAccess.Repositories
 
         public virtual async Task<IEnumerable<Product>> GetRangeAsync(int start, int count)
         {
-            return await GetQueryable().OrderBy(x => x.Id).Skip(start).Take(count).ToListAsync().ConfigureAwait(false);
+            return await GetQueryable().OrderBy(x => x.Id)
+                                       .Skip(start).Take(count)
+                                       .ToListAsync().ConfigureAwait(false);
         }
 
-        public virtual async Task<IEnumerable<Product>> GetRangeAsync(int start, int count, Expression<Func<Product, bool>> predicate)
+        public virtual async Task<IEnumerable<Product>> GetRangeAsync(int start, int count,
+                                                                      Expression<Func<Product, bool>> predicate)
         {
-            return await GetQueryable().Where(predicate).OrderBy(x => x.Id).Skip(start).Take(count).ToListAsync().ConfigureAwait(false);
+            return await GetQueryable().Where(predicate)
+                                       .OrderBy(x => x.Id)
+                                       .Skip(start).Take(count)
+                                       .ToListAsync().ConfigureAwait(false);
         }
 
         public virtual IEnumerable<Product> Find(Expression<Func<Product, bool>> predicate)
@@ -67,10 +73,22 @@ namespace SIENN.DbAccess.Repositories
 
         public void Update(Product entity)
         {
+            List<int> newCategories = entity.Categories.Select(x => x.CategoryId).ToList();
+
             if (_entities.Any(p => p.Code == entity.Code && p.Id != entity.Id))
             {
                 throw new InvalidOperationException("Product with the same code already exists.");
             }
+
+            foreach (var prodToCat in entity.Categories)
+            {
+                prodToCat.ProductId = entity.Id;
+            }
+
+            if (_context.Entry(entity).State == EntityState.Detached)
+                _context.Attach(entity);
+
+            _context.Entry(entity).State = EntityState.Modified;
 
             var existingCategories = _context.ProductsToCategories.Where(c => c.ProductId == entity.Id);
 
@@ -86,7 +104,7 @@ namespace SIENN.DbAccess.Repositories
             foreach (var protToCat in existingCategories)
             {
                 //check for deleted categories connection
-                if (!entity.Categories.Any(e => e.CategoryId == protToCat.CategoryId))
+                if (!newCategories.Any(e => e == protToCat.CategoryId))
                 {
                     _context.Entry(protToCat).State = EntityState.Deleted;
                 }

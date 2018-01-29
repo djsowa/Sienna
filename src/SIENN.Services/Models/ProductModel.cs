@@ -1,8 +1,7 @@
-using System.Collections.Generic;
 using System.Collections;
 using SIENN.DbAccess.Entity;
 using System.Linq;
-using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace SIENN.Services.Models
 {
@@ -12,33 +11,36 @@ namespace SIENN.Services.Models
         {
         }
 
-        public int Id { get; set; }        
+        public int Id { get; set; }
     }
 
-
-    public class ProductBaseModel
+    public class ProductViewModel
     {
-        public ProductBaseModel()
+        public ProductViewModel(ProductModel product, string typeCode, string typeDescription, string unitCode, string unitDescription)
         {
-            Categories = new List<int>();
+            this.ProductDescription = $"({product.Code}) {product.Description}";
+
+            this.Price = $"{product.Price.ToString("N2")} zł";
+
+            this.IsAvailable = product.IsAvailable;
+            this.DeliveryDate = product.NextDelivery;
+            this.CategoriesCount = product.Categories.Count;
+
+            this.Unit = $"({unitCode}) {unitDescription}";
+            this.Type = $"({typeCode}) {typeDescription}";
+
         }
 
-        [Required]
-        [MaxLength(20)]
-        public string Code { get; set; }
-        public virtual List<int> Categories { get; set; }
+        public string ProductDescription { get; set; }
+        public string Price { get; set; }
 
-        [Required]
-        public int UnitId { get; set; }
+        public bool IsAvailable { get; set; }
+        public DateTime? DeliveryDate { get; set; }
 
-        [Required]
-        public int ProductTypeId { get; set; }
+        public int CategoriesCount { get; set; }
 
-        [MaxLength(255)]
-        public string Description { get; set; }
+        public string Type { get; set; }
 
-        [Required]
-        public decimal Price { get; set; }
-        public bool IsAvailable { get; set; }       
+        public string Unit { get; set; }
     }
 }

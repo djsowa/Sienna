@@ -11,6 +11,12 @@ namespace SIENN.Services.Models
             Items = new List<T>();
         }
 
+        public GenericList(List<T> items, int totalCount)
+        {
+            Items = items;
+            TotalCount = totalCount;
+        }
+
         public List<T> Items { get; set; }
 
         public int TotalCount { get; set; }

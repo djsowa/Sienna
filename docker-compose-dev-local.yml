@@ -1,0 +1,27 @@
+version: '2'
+services:
+
+
+  ##################################################
+  ##                DATABASES                     ##
+  ##################################################
+
+  one-postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:        
+       - POSTGRES_PASSWORD=SiennaPass#0Rd
+
+
+  ##################################################
+  ##                TOOLS                         ##
+  ##################################################
+
+  interface-postgres:
+    image: fenglc/pgadmin4
+    ports: 
+      - 82:5050
+    environment:
+      DEFAULT_PASSWORD: SiennaPass#0Rd
+      DEFAULT_USER: postgres

@@ -21,15 +21,20 @@ RUN dotnet add package Microsoft.Extensions.Configuration.Json -v 2.0.0
 RUN dotnet add package Swashbuckle.AspNetCore -v 1.1.0
 RUN dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection -v 3.2.0
 RUN dotnet add package AutoMapper -v 6.2.2
+RUN dotnet add package FluentAssertions -v 4.19.4
+RUN dotnet add package Microsoft.NET.Test.Sdk -v 15.3.0-preview-20170628-02
+RUN dotnet add package xunit -v 2.2.0
+RUN dotnet add package xunit.runner.visualstudio -v 2.2.0
 
 
+WORKDIR /app
 WORKDIR /app
 COPY ./src /app/src
 
 RUN chmod +x /app/src/DbUpdate.sh
 
 RUN dotnet restore /app/src
-#RUN dotnet build /app/src
+RUN dotnet test /app/src/SIENN.Tests/SIENN.Tests.csproj
 RUN dotnet publish /app/src --output /app
 
 #RUN rm -R /app/src

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using SIENN.DbAccess.Entity;
 using SIENN.Services.Models;
 
-namespace SIENN.Services.ControllerServices
+namespace SIENN.Services.ControllerServices.Crud
 {
     public interface ICrudControllerService<TResultModel, TRequestModel, TEntity> where TEntity : BaseEntity
                                                                                   where TResultModel : class

@@ -32,12 +32,18 @@ namespace SIENN.DbAccess.Repositories
 
         public virtual async Task<IEnumerable<TEntity>> GetRangeAsync(int start, int count)
         {
-            return await _entities.OrderBy(x=>x.Id).Skip(start).Take(count).ToListAsync().ConfigureAwait(false);
+            return await _entities.OrderBy(x=>x.Id)
+                                  .Skip(start).Take(count)
+                                  .ToListAsync().ConfigureAwait(false);
         }
 
-        public virtual async Task<IEnumerable<TEntity>> GetRangeAsync(int start, int count, Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<IEnumerable<TEntity>> GetRangeAsync(int start, int count, 
+                                                                      Expression<Func<TEntity, bool>> predicate)
         {
-            return await _entities.Where(predicate).OrderBy(x=>x.Id).Skip(start).Take(count).ToListAsync().ConfigureAwait(false);
+            return await _entities.Where(predicate)
+                                  .OrderBy(x=>x.Id)
+                                  .Skip(start).Take(count)
+                                  .ToListAsync().ConfigureAwait(false);
         }
 
         public virtual IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)

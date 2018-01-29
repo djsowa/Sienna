@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
@@ -20,6 +21,23 @@ namespace SIENN.Services.Mappings
             var result = new List<ProductToCategory>(source.Categories.Select(c => new ProductToCategory(destination, c)));
             destination.Categories.Clear();
             result.ForEach(x => destination.Categories.Add(x));
+            return result;
+        }
+    }
+
+    public class CategoryIdToCategoryResolver : IValueResolver<int, Product, ProductToCategory>
+    {
+        public CategoryIdToCategoryResolver()
+        {
+
+        }
+
+        public ProductToCategory Resolve(int source, Product destination, ProductToCategory destMember, ResolutionContext context)
+        {
+            Console.WriteLine($"{context.Items}");
+            var result = new ProductToCategory(0, source);
+
+            destination.Categories.Add(result);
             return result;
         }
     }

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIENN.Services", "SIENN.Ser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIENN.WebApi", "SIENN.WebApi\SIENN.WebApi.csproj", "{369B5334-A06E-4766-941F-3043B62DC1D6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIENN.Tests", "SIENN.Tests\SIENN.Tests.csproj", "{AB56DB0C-AD10-4858-9DC0-F24E0CC2796F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,18 @@ Global
 		{369B5334-A06E-4766-941F-3043B62DC1D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{369B5334-A06E-4766-941F-3043B62DC1D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{369B5334-A06E-4766-941F-3043B62DC1D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB56DB0C-AD10-4858-9DC0-F24E0CC2796F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB56DB0C-AD10-4858-9DC0-F24E0CC2796F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB56DB0C-AD10-4858-9DC0-F24E0CC2796F}.Debug|x64.ActiveCfg = Debug|x64
+		{AB56DB0C-AD10-4858-9DC0-F24E0CC2796F}.Debug|x64.Build.0 = Debug|x64
+		{AB56DB0C-AD10-4858-9DC0-F24E0CC2796F}.Debug|x86.ActiveCfg = Debug|x86
+		{AB56DB0C-AD10-4858-9DC0-F24E0CC2796F}.Debug|x86.Build.0 = Debug|x86
+		{AB56DB0C-AD10-4858-9DC0-F24E0CC2796F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB56DB0C-AD10-4858-9DC0-F24E0CC2796F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB56DB0C-AD10-4858-9DC0-F24E0CC2796F}.Release|x64.ActiveCfg = Release|x64
+		{AB56DB0C-AD10-4858-9DC0-F24E0CC2796F}.Release|x64.Build.0 = Release|x64
+		{AB56DB0C-AD10-4858-9DC0-F24E0CC2796F}.Release|x86.ActiveCfg = Release|x86
+		{AB56DB0C-AD10-4858-9DC0-F24E0CC2796F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

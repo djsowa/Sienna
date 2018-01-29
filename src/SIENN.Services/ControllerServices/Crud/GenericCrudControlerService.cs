@@ -10,25 +10,21 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using System;
 
-namespace SIENN.Services.ControllerServices
+namespace SIENN.Services.ControllerServices.Crud
 {
-    public abstract class GenericCrudControlerService<TResultModel, TRequestModel, TEntity> : ICrudControllerService<TResultModel, TRequestModel, TEntity>
-                                                                                    where TEntity : BaseEntity
-                                                                                    where TResultModel : class
-                                                                                    where TRequestModel : class
+    public abstract class GenericCrudControlerService<TResultModel, TRequestModel, TEntity> 
+                        : ICrudControllerService<TResultModel, TRequestModel, TEntity>  where TEntity : BaseEntity
+                                                                                        where TResultModel : class
+                                                                                        where TRequestModel : class
     {
         protected readonly StoreDbContext Context;
         protected readonly IMapper Mapper;
 
         protected readonly GenericCrudCommand<TEntity> CrudCommand;
-        public GenericCrudControlerService(StoreDbContext context, IMapper mapper)
+        public GenericCrudControlerService(StoreDbContext context, IMapper mapper, IGenericRepository<TEntity> repository)
         {
             Context = context;
             Mapper = mapper;
-        }
-
-        public GenericCrudControlerService(StoreDbContext context, IMapper mapper, IGenericRepository<TEntity> repository) : this(context, mapper)
-        {
             CrudCommand = new GenericCrudCommand<TEntity>(Context, repository);
         }
 
@@ -59,7 +55,8 @@ namespace SIENN.Services.ControllerServices
 
         public virtual async Task<Tuple<int, TResultModel>> AddAsync(TRequestModel request)
         {
-            int entityId = await CrudCommand.AddAsync(FromRequestToEntity(request));
+            var requestedEntity = FromRequestToEntity(request);
+            int entityId = await CrudCommand?.AddAsync(requestedEntity);
 
             if (entityId == 0)
                 return null;

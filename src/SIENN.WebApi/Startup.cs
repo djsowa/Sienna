@@ -13,6 +13,7 @@ using SIENN.Services.Models;
 using SIENN.Services.ControllerServices.Crud;
 using SIENN.Services.ControllerServices.Search;
 using System;
+using System.Linq;
 
 namespace SIENN.WebApi
 {
@@ -63,17 +64,17 @@ namespace SIENN.WebApi
             services.AddAutoMapper();
         }
 
-        public static void Seed(IApplicationBuilder app)
+        public void Seed(IApplicationBuilder app)
         {
             // Get an instance of the DbContext from the DI container
-            using (var context = app.ApplicationServices.GetRequiredService<StoreDbContext>())
+            using (var context = new StoreDbContext(new DbContextOptionsBuilder<StoreDbContext>().UseNpgsql(Configuration.GetConnectionString("OnePostgres")).Options))
             {
                 // perform database delete
                 context.Database.EnsureDeleted();
 
                 context.Database.EnsureCreated();
                 context.SeedDb();
-                
+
             }
         }
 

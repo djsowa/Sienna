@@ -8,7 +8,8 @@ On Linux/Ubuntu:
  - Run `cd Sienna`
  - Run `docker-compose -f docker-compose-dev-local.yml up -d`, optionally add `--remove-orphans` to stop unused containers.
  - Run `cd src/SIENN.WebApi`
- - (Optional) Run: `dotnet ef database update -s SIENN.WebApi.csproj -p ../SIENN.DbAccess/SIENN.DbAccess.csproj`
+ - Run `dotnet restore`
+ - (Optional) Database update, run: `dotnet ef database update -s SIENN.WebApi.csproj -p ../SIENN.DbAccess/SIENN.DbAccess.csproj`
  - Run `dotnet run`
  - Access to PgAdmin web interface to manage PostgreSQL database: http://localhost:82
     - Username: postgresql

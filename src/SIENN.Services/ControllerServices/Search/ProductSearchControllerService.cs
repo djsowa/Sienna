@@ -81,7 +81,7 @@ namespace SIENN.Services.ControllerServices.Search
             var availableOnlyQuery = Repository.GetQueryable().Where(p => p.IsAvailable == true)
                                                               .OrderBy(p => p.Id);
 
-            return await RunPagedQueryable(availableOnlyQuery, skip, skip);
+            return await RunPagedQueryable(availableOnlyQuery, skip, take);
         }
     }
 }
